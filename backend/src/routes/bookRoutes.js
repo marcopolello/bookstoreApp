@@ -20,6 +20,8 @@ router.post("/", protectRoute, async (req, res) => {
         });
         const imageUrl = uploadResponse.secure_url;
 
+        //console.log("Image URL saved:", imageUrl);
+
         const newBook = await Book.create({
             title,
             author,
@@ -87,29 +89,48 @@ router.get("/user", protectRoute, async (req, res) => {
 router.delete("/:id", protectRoute, async (req, res) => {
     try {
         const book = await Book.findById(req.params.id);
-        if(!book) return res.status(404).json({ message: "Book not found" });  
+        if (!book) return res.status(404).json({ message: "Book not found" });
 
-        // check if user is the creator of the book
-        if(book.user.toString() !== req.user._id.toString()) {
+        if (book.user.toString() !== req.user._id.toString()) {
             return res.status(401).json({ message: "You are not authorized to delete this book" });
         }
 
-        // delete the image from cloudinary as well
-        if (book.image && book.image.includes("cloudinary")) {
+        if (book.image && typeof book.image === "string" && book.image.includes("cloudinary")) {
             try {
-                // https::/res.cloudinary.com/de1rm4uto/image/upload/v189247182/qyup61vefjkassdgv01.png
-                const publicId = book.image.split("/").pop().split(".")[0]; //con split prendo solo => qyup61vefjkassdgv01.png  e alla fine prendo solo il primo elemento dell'array quindi ciò che sta prima del punto => qyup61vefjkassdgv01
+                const publicId = `books/${book.image.split('/').pop().split('.')[0]}`;
                 await cloudinary.uploader.destroy(publicId);
+                console.log("Image deleted from Cloudinary:", publicId);
             } catch (deletedError) {
-                console.log("Error deleting image from cloudinary", deletedError);
+                console.error("Error deleting image from Cloudinary:", deletedError);
             }
         }
 
         await Book.findByIdAndDelete(req.params.id);
         res.status(200).json({ message: "Book deleted successfully" });
     } catch (error) {
-        console.log("Error deleting book", error);
+        console.error("Error deleting book:", error);
         res.status(500).json({ message: error.message });
+    }
+});
+
+//lista immagini da cloudinary (prende solo i /books)
+router.get("/images", async (req, res) => {
+    try {
+        const { resources } = await cloudinary.api.resources({
+            type: "upload",
+            prefix: "books", // Opzionale: filtra per cartella o prefisso
+            resource_type: "image", // Specifica che vuoi solo immagini
+        });
+
+        const images = resources.map((resource) => ({
+            public_id: resource.public_id,
+            url: resource.secure_url,
+        }));
+
+        res.status(200).json(images);
+    } catch (error) {
+        console.error("Error fetching images from Cloudinary:", error);
+        res.status(500).json({ message: "Error fetching images" });
     }
 });
 
