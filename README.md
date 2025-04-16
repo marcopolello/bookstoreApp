@@ -35,3 +35,8 @@ https://cloudinary.com/
 
 7. npm run dev
 
+per avviare il front-end:
+
+1.npm run start
+2. se non funziona lanciare il comando: expo start --tunnel
+

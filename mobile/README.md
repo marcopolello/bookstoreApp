@@ -1,50 +1,58 @@
-# Welcome to your Expo app 👋
+# YouTube Trimmer App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+This is a React Native application that allows users to input a YouTube link for any music video and provides an interface to trim a segment of the video with sound.
 
-## Get started
+## Features
 
-1. Install dependencies
+- Input a YouTube video link.
+- Play and pause the video.
+- Select start and end times for trimming.
+- Execute the trim operation to create a segment of the video.
 
-   ```bash
+## Installation
+
+1. Clone the repository:
+   ```
+   git clone <repository-url>
+   ```
+
+2. Navigate to the project directory:
+   ```
+   cd youtube-trimmer-app
+   ```
+
+3. Install the dependencies:
+   ```
    npm install
    ```
 
-2. Start the app
+## Usage
 
-   ```bash
-    npx expo start
+1. Start the application:
+   ```
+   npm start
    ```
 
-In the output, you'll find options to open the app in a
+2. Open the app on your mobile device or emulator.
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+3. Input a valid YouTube video link on the Home Screen.
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+4. Navigate to the Trim Screen to select the segment you want to trim.
 
-## Get a fresh project
+## Components
 
-When you're ready, run:
+- **VideoPlayer**: Handles video playback using `react-native-video`.
+- **TrimControls**: Provides UI for trimming the video.
+- **InputLink**: Allows users to input and validate YouTube links.
 
-```bash
-npm run reset-project
-```
+## Utilities
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+- **videoUtils**: Contains utility functions for video operations and interfacing with the YouTube API.
 
-## Learn more
+## Contributing
 
-To learn more about developing your project with Expo, look at the following resources:
+Feel free to submit issues or pull requests for improvements and bug fixes.
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+## License
 
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+This project is licensed under the MIT License.
