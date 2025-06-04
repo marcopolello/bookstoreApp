@@ -33,10 +33,10 @@ CLOUDINARY_API_SECRET```:
 https://cloud.mongodb.com/
 https://cloudinary.com/
 
-7. npm run dev
+7. npm run dev per avviare backend
 
 per avviare il front-end:
 
-1.npm run start
-2. se non funziona lanciare il comando: expo start --tunnel
+1. npm run start
+2. se non funziona lanciare il comando: npm run tunnel
 
