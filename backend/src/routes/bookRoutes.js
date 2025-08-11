@@ -10,16 +10,18 @@ router.post("/", protectRoute, async (req, res) => {
     try {
         const {title, author, caption, description, price, image, category, rating, countInStock} = req.body;
         console.log(req.body.author);
-        if(!title || !author || !caption || !description || !price || !image || !category || !rating || !countInStock) {
+        if(!title || !author || !caption || !description || !price || !category || !rating || !countInStock) {
             return res.status(400).json({ message: "Please provide all fields" });
         }
 
         //upload the image to cloudinary
-        const uploadResponse = await cloudinary.uploader.upload(image, {
+        if (image) {
+            const uploadResponse = await cloudinary.uploader.upload(image, {
             resource_type: "image",
             folder: "books"
-        });
-        const imageUrl = uploadResponse.secure_url;
+            });
+            const imageUrl = uploadResponse.secure_url;
+        }
 
         //console.log("Image URL saved:", imageUrl);
 
@@ -29,7 +31,7 @@ router.post("/", protectRoute, async (req, res) => {
             caption,
             description,
             price,
-            image: imageUrl,
+            image: null,
             category,
             rating,
             countInStock,

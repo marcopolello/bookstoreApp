@@ -83,7 +83,7 @@ export default function Create() {
   };
 
   const handleSubmit = async () => {
-    if (!title || !caption || !imageBase64 || !rating || !author || !description || !price || !countInStock || !category) {
+    if (!title || !caption || !rating || !author || !description || !price || !countInStock || !category) {
       Alert.alert("Error", "Please fill in all fields");
       return;
     }
@@ -92,13 +92,16 @@ export default function Create() {
       setLoading(true);
 
       // get file extension from URI or default to jpeg
-      const uriParts = image.split(".");
-      const fileType = uriParts[uriParts.length - 1];
-      const imageType = fileType ? `image/${fileType.toLowerCase()}` : "image/jpeg";
+      console.log("Image:", image);
+      if (image) {
+        const uriParts = image?.split(".");
+        const fileType = uriParts[uriParts.length - 1];
+        const imageType = fileType ? `image/${fileType.toLowerCase()}` : "image/jpeg";
 
-      const imageDataUrl = `data:${imageType};base64,${imageBase64}`;
+        const imageDataUrl = `data:${imageType};base64,${imageBase64}`;
 
-      console.log(imageDataUrl);
+        //console.log(imageDataUrl);
+      }
 
       const response = await fetch(`${API_URL}/books`, {
         method: "POST",
@@ -110,7 +113,7 @@ export default function Create() {
           title,
           caption,
           rating: rating.toString(),
-          image: imageDataUrl,
+          image: null,
           author,
           description,
           price,
